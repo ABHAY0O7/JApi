@@ -66,7 +66,7 @@ class updateFiles:
             includeLineNo = 1
 
         importInclude = "from django.urls import include"
-        includePath = "path('api/',include('base.urls')),"
+        includePath = "path('api/',include('" + self.base + ".urls')),"
 
         URLsFileData.insert(includeLineNo - 1, importInclude + self.nextLine)
         URLsFileData.insert(pathLineNo + 1, self.tab + includePath + self.nextLine)

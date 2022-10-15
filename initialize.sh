@@ -51,6 +51,4 @@ python3 manage.py migrate
 
 echo Created database Successfully
 
-python3 manage.py runserver
-
 echo DONE!
