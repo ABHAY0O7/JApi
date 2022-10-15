@@ -41,6 +41,8 @@ python3 manage.py startapp $base
 
 echo Started new App $base
 
+echo "urlpatterns=[]" > $base/urls.py
+
 python3 manage.py makemigrations
 
 echo Converted python models to SQL classes
@@ -50,7 +52,5 @@ python3 manage.py migrate
 echo Created database Successfully
 
 python3 manage.py runserver
-
-echo Server Running
 
 echo DONE!
