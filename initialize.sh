@@ -13,7 +13,7 @@ python3 -m venv env
 
 echo Created virtual enviornment
 
-source env/bin/activate
+. env/bin/activate
 
 echo Activated virtual enviornment
 
