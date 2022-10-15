@@ -13,7 +13,7 @@ python3 -m venv env
 
 echo Created virtual enviornment
 
-source env/bin/activate
+. env/bin/activate
 
 echo Activated virtual enviornment
 
@@ -50,7 +50,5 @@ echo Converted python models to SQL classes
 python3 manage.py migrate
 
 echo Created database Successfully
-
-python3 manage.py runserver
 
 echo DONE!
