@@ -41,7 +41,7 @@ re-writing codes.
 ## 🚀 Features
 
 <ul>
-    <li> Create your own backend server, dependong on the json which is provided by the user. </li>
+    <li> Create your own backend server, depending on the json which is provided by the user. </li>
     <li> Access the codes for the same and can ammend them as per need.  </li>
     <li> Provides the user with endpoints. </li>
     <li> Can change the primary keys and the tables </li>
