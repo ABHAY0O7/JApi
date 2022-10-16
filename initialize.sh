@@ -1,13 +1,9 @@
 #!/bin/bash
 
-echo start
-
-echo please install python3, python3-pip, python3-django if not present
-
 name=$1
 base=$2 
 
-echo $name $base
+echo Creating virtual environment
 
 python3 -m venv env
 
@@ -17,9 +13,13 @@ echo Created virtual enviornment
 
 echo Activated virtual enviornment
 
-pip3 install django
+pip3 install django==4.1.2
 
 echo Installed django successfully
+
+pip3 install click==7.0
+
+echo Installed click successfully
 
 pip3 install djangorestframework
 
@@ -27,28 +27,25 @@ echo Installed djangorestframework successfully
 
 django-admin startproject $name
 
-echo Started project $name
+echo Starting project $name
 
 mv env/ $name/
 
-echo Moved virtual enviornment to $name folder
+echo Moved virtual enviornment to $name
 
 cd $name/
-
-echo Changed directory to $name folder
 
 python3 manage.py startapp $base
 
 echo Started new App $base
 
+echo Writing to $base/urls.py
 echo "urlpatterns=[]" > $base/urls.py
 
 python3 manage.py makemigrations
 
 echo Converted python models to SQL classes
 
+echo Creating database
+
 python3 manage.py migrate
-
-echo Created database Successfully
-
-echo DONE!
