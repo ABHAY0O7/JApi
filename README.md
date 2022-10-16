@@ -20,8 +20,7 @@ be a helpful tool for developers who do not wish to re-write the same codes and 
 add other important feature like authentication etc to the basic code which is being 
 generated using this terminal app. 
 
-
-[Youtube Video link of jApi](https://youtu.be/W4jO667ISF0)
+[![Youtube Video link of Notesy](http://img.youtube.com/vi/W4jO667ISF0/0.jpg)](http://www.youtube.com/watch?v=W4jO667ISF0 'JApi')
 ## 💡 Motivation
 
 
