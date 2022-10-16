@@ -22,17 +22,25 @@ from util import print_colored
               help="Base name", default="base")
 @click.option('--append', '-a', default=False, is_flag=True)
 @click.option('--class_name', '-c', help="Class name", default=None)
-@click.option('--user_id', '-uid', help="UserId", default="id")
+@click.option('--primary_key', '-pk', help="Primary key for the table", default=None)
 @click.option('--init', '-i', default=False, is_flag=True)
 @click.option('--json_path', '-j', help="Json Path", default=None)
+@click.option('--connect', '-con', help="Create Connection", default=False, is_flag=True)
+@click.option('--from_database', '-f', help="From database", default=None)
+@click.option('--to_database', '-to', help="To database", default=None)
+@click.option('--con_type', '-ct', help="Type of connection.o2o for one to one,o2m for one to many,m2m for many to many", default=None)
 def jApi(
         directory,
         sub_directory,
         init,
         append,
         class_name,
-        user_id,
-        json_path):
+        primary_key,
+        json_path,
+        connect,
+        from_database,
+        to_database,
+        con_type):
     
     # Initialising the shell scripts to create a demo django backend
     if init:
@@ -41,7 +49,7 @@ def jApi(
         
         # Storing the flags inside init_data.json file for future use 
         print_colored('Storing flags as FIELDS inside initData.json', 'blue')
-        c1 = convert.Convertor()
+        c1 = convert.Convertor(False)
         c1.path = f'{directory}/{sub_directory}'
         c1.write_to_file()
         print_colored('Stored successfully', 'green')
@@ -103,42 +111,24 @@ def jApi(
 
         # Fetching stored flag fields
         print_colored('Accessing stored flags from initData.json', 'blue')
-        c2 = convert.Convertor()
-        c2.load_from_file()
-        path = c2.path
+        c = convert.Convertor()
         print_colored('Accessed successfully', 'green')
 
         # TODO id feature
         with open(json_path, 'r') as file:
             data = json.load(file)
-            c2.ask_or_append(data, class_name)
-
-        # Writing backend as demanded in JSON by user
-        print_colored('Starting writing backend', 'header', 'b')
-        with open(path + '/models.py', 'w') as f:
-            f.write(c2.create_model_string())
-        print_colored('Written successfully in models.py', 'green')
-
-        with open(path + '/serializers.py', 'w') as f:
-            f.write(c2.create_serialiser_string())
-        print_colored('Written successfully in serializers.py', 'green')
-
-        with open(path + '/views.py', 'w') as f:
-            f.write(c2.create_views_string())
-        print_colored('Written successfully in views.py', 'green')
-
-        with open(path + '/urls.py', 'w') as f:
-            f.write(c2.create_urls_string())
-        print_colored('Written successfully in urls.py', 'green')
-
-        print_colored('Backend written successfully to all the files', 'green', 'b')
-
-        backend_name = path.split('/')[0]
-        print_colored(f'Starting migrations', 'blue')
-        os.system(f'python3 {backend_name}/manage.py makemigrations')
-        os.system(f'python3 {backend_name}/manage.py migrate')
-        print_colored(f'Migration Successful!', 'green', 'b')
-
+            c.ask_or_append(data, class_name,primary_key)
+        c.code()
+        c.write_to_file()
+        
+    if connect:
+        assert from_database is not None, "Database to start connection from must be provided"
+        assert to_database is not None, "Database to connect to must be provided"
+        assert con_type is not None, "Connection type between the databases must be provided"
+        c = convert.Convertor()
+        c.create_connection(from_database,to_database,con_type)
+        c.code()
+        c.write_to_file()
 
 if __name__ == '__main__':
     jApi()
