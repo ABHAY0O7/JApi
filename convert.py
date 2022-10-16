@@ -1,3 +1,5 @@
+import json
+import os
 import re
 
 class Convertor():
@@ -10,6 +12,7 @@ class Convertor():
             bool: "models.BooleanField(default=False)"
         }
         self.primary_keys = {}
+        self.path = ''
         
     def validString(self, dataString):
         specialCharacters = "[^a-zA-Z0-9_]"
@@ -22,6 +25,22 @@ class Convertor():
             return False
         return True
     
+    def write_to_file(self):
+        data = {
+            'path' : self.path,
+            'data' : self.data,
+            'primary_keys' : self.primary_keys
+        }
+        with open('initData.json','w') as file:
+            json.dump(data, file)
+
+    def load_from_file(self):
+        if os.path.exists('initData.json'):
+            with open('initData.json', 'r') as file:
+                dic = json.load(file)
+                self.path = dic['path']
+                
+
     def ask_or_append(self,json_data,class_name,primary_key=None):
         class_name = class_name.title()
         if class_name in self.data.keys():
